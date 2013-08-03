@@ -1,0 +1,363 @@
+/*!
+ *
+ * Copyright 2013 Architech Homes
+ * 
+ * 
+ *
+ */
+
+/* Html */
+/*
+html {
+  background: url("../img/SYH_background_940.jpg") no-repeat center top scroll;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+*/
+body {
+  margin: 0;
+  font-family: 'Trebuchet MS', Arial, sans-serif;
+  font-size: 14px;
+  color: #000000;
+  line-height: 20px;
+  padding-top: 20px;
+  background: transparent;
+}
+
+.textbox {
+    background: url("../img/slate_bg.png") repeat scroll 0% 0% transparent;
+    padding: 10px;
+    border-top: 3px solid #353331;
+    border-bottom: 3px solid #353331;
+    border-left: 3px solid #353331;
+    border-right: 3px solid #353331;
+    color: #ffffff;
+}
+
+p, ul {
+  line-height: 18px;
+  margin-top: 0px;
+  margin-bottom: 10px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 10px 0;
+  font-family: inherit;
+  font-weight: bold;
+  line-height: 20px;
+  color: inherit;
+  text-rendering: optimizelegibility;
+}
+
+h1 {
+  font-size: 26px;
+  line-height: 40px;
+}
+
+h2 {
+  font-size: 18px;
+  line-height: 20px;
+}
+
+h3 {
+  font-size: 16px;
+  line-height: 18px;
+}
+
+h4 {
+  font-size: 14px;
+  line-height: 16px;
+}
+
+h5 {
+  font-size: 13px;
+}
+
+h6 {
+  font-size: 11.9px;
+}
+
+h1.legal {
+  font-size: 18px;
+  border-bottom: 1px solid silver;
+}
+
+h2.legal {
+  font-size: 16px;
+}
+
+h3.legal {
+  font-size: 14px;
+}
+
+img {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+  box-shadow: none;
+}
+
+.img_left {
+  float: left;
+  margin-right: 15px;
+}
+
+.img_right {
+  float: right;
+  margin-left: 15px;
+}
+
+code,
+pre {
+  padding: 0 3px 2px;
+  font-family: "Courier New", monospace;
+  font-size: 11px;
+  color: #333333;
+  -webkit-border-radius: 3px;
+     -moz-border-radius: 3px;
+          border-radius: 3px;
+}
+
+input,
+button,
+select,
+textarea {
+    font-family: 'Trebuchet MS', Arial, sans-serif;
+}
+
+/* Header */
+
+#header {
+  margin-top: 10px;
+  padding-bottom: 4px;
+  background: transparent;
+}
+
+#site-logo {
+  float: left;
+  margin-left: 4px;
+  margin-right: 6px;
+  margin-top: 4px;
+  margin-bottom: 10px;
+}
+
+#site-logo img {
+    box-shadow: 0 0 0px #BBBBBB;
+}
+
+#site-titles {
+    margin-top: 12px;
+    margin-left: 4px;
+}
+
+#site-title {
+    font-family: 'Trebuchet MS', Arial, sans-serif;
+    font-size: 30px;
+    line-height: 32px;
+}
+
+#site-title a {
+    color: #333333;
+}
+
+#site-title a:hover {
+    text-decoration: none;
+    color: #333333;
+}
+
+#site-tagline {
+    float: left;
+    font-size: 14px;
+    font-weight: bold;
+    font-style: italic;
+    margin-top: 2px;
+    margin-left: 0px;
+    color: #333333;
+}
+
+#user-info {
+    text-align: right;
+}
+
+.form-search {
+    margin: 4px 0 4px;
+}
+
+/* Navigation */
+
+#navigation {
+    background: #42A400;
+    margin-bottom: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.nav {
+    margin-bottom: 0px;
+    padding-left: 10px;
+}
+
+.nav-pills {
+    border-bottom: 0px;
+}
+
+.nav-pills > li {
+    margin-bottom: 0px;
+}
+
+.nav-pills > li > a {
+    font-family: 'Trebuchet MS', Arial, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    color: #333333;
+    border: 1px solid transparent;
+    border-radius: 4px 4px;
+    line-height: 18px;
+    padding-bottom: 8px;
+    padding-top: 8px;
+}
+
+.nav-pills .dropdown-menu, .nav-pills .dropdown-menu {
+    border-width: 1px;
+    margin-top: 0px;
+}
+
+.nav-pills > .active > a, .nav-pills > .active > a:hover {
+    background-color: #EEEEEE;
+    color: #333333;
+}
+
+.navbar .brand {
+  display: block;
+  float: left;
+  padding: 10px 20px 10px;
+  margin-left: -20px;
+  font-size: 30px; /* changed font-size */
+  font-weight: 200;
+  color: #777777;
+  text-shadow: 0 1px 0 #ffffff;
+}
+
+.navbar-search .search-query {
+  padding: 4px 14px;
+  margin-bottom: 0;
+  font-family: 'Trebuchet MS', Arial, sans-serif;
+  font-size: 13px;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-border-radius: 15px;
+     -moz-border-radius: 15px;
+          border-radius: 15px;
+}
+
+/* Breadcrumb */
+
+.breadcrumb {
+  padding: 8px 15px;
+  margin: 0 0 20px;
+  background: transparent;
+  list-style: none;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+}
+
+.breadcrumb > li {
+  display: inline-block;
+  *display: inline;
+  text-shadow: 0 1px 0 #ffffff;
+  *zoom: 1;
+}
+
+.breadcrumb > li > .divider {
+  padding: 0 5px;
+  color: #ccc;
+}
+
+.breadcrumb > .active {
+  color: #888888;
+}
+
+/* Index */
+
+
+
+/* Footer */
+
+#footer {
+  font-size: 11px;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  background: transparent;
+  border-top: 1px solid black;
+}
+
+#footer ul {
+  text-align: left;
+  display: inline-block;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+#footer li {
+  float: left;
+  list-style-type: none;
+}
+
+#footer li li {
+  float: none;
+  clear: both;
+  width: 100px;
+  padding: 2px 0;
+  margin-right: 2px;
+}
+
+#footer a {
+  color: #333333;
+}
+
+#footer p {
+  margin-top: 4px;
+  text-align: center;}
+
+#footer .separator {
+  opacity: 0.3;
+  margin: 0 10px;
+}
+
+#footer-line {
+  font-size: 11px;
+  text-align: left;
+}
+
+#footer-line a {
+  color: #666666;
+  text-decoration: underline;
+}
+
+#footer-line .icon-arrow-up {
+  opacity: 0.7;
+  margin-left: 4px;
+}
+
+#footer-right {
+  font-size: 11px;
+  text-align: right;
+
+}
+#footer-center {
+  font-size: 11px;
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
