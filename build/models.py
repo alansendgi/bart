@@ -1,29 +1,60 @@
 from django.db import models
+from django.forms import ModelForm
+import socket
 
-class NetworkAddress(models.Model):
-    # changed Poll to NetworkAddress
-    address = models.IPAddressField()
-    # changed question to address
-    network_size = models.PositiveIntegerField()
-    description = models.CharField(max_length=100)
-    add_date = models.DateTimeField('date added')
-    # changed pub_date to add_date
-    
-    def was_added_recently(self):
-        # changed was_published_recently to was_added_recently
-        return self.add_date >= timezone.now() - datetime.timedelta(days=1)
-    
-    def __unicode__(self):
-        return self.address
 
 class NetworkDevice(models.Model):
-    # changed Choice to NetworkDevice
-    device_model = models.CharField(max_length=100)
-    # changed choice_text to device_model
-    networkaddress = models.ForeignKey(NetworkAddress)
-    # changed poll to networkaddress, Poll to NetworkAddress
-    subnet_addr = models.IPAddressField(default='255.255.255.255')
-    # changed votes to subnet_addr
     
+    address = models.IPAddressField()
+    community = models.CharField(max_length=255, null=True)
+    username = models.CharField(max_length=255, null=True, blank=True)
+    password = models.CharField(max_length=255, null=True, blank=True)
+    fqdn = models.CharField(max_length=255, null=True, blank=True)
+    manufacturer = models.CharField(max_length=50, null=True, blank=True)
+    model = models.CharField(max_length=50, null=True, blank=True)
+    ios = models.CharField(max_length=50, null=True, blank=True)
+    description = models.CharField(max_length=400, null=True, blank=True)
+
     def __unicode__(self):
-        return self.device_model
+        return "%s %s %s %s" % (self.address, self.fqdn, self.community, self.model)
+
+    def get_absolute_url(self):
+        return reverse('networkdevices-list', kwargs={'pk': self.id})
+
+
+class NetworkAddress(models.Model):
+    
+    address = models.ForeignKey(NetworkDevice)
+    network_size = models.PositiveIntegerField()
+    description = models.CharField(max_length=400)
+    parent = models.ForeignKey('self', null=True, blank=True)
+
+    def __unicode__(self):
+        return "%s/%d" % (self.address, self.network_size)
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('networkaddress-display', (), {'address': '%s/%s' % (self.address, self.network_size)})
+
+    def get_hostname(self):
+        try:
+            fqdn = socket.gethostbyaddr(str(self.address))[0]
+        except:
+            fqdn = ''
+        return fqdn
+
+    def get_formated_address(self):
+        return str(self.address).replace('.', '_')
+
+    def get_netmask(self):
+        bit_netmask = 0;
+        bit_netmask = pow(2, self.network_size) - 1
+        bit_netmask = bit_netmask << (32 - self.network_size)
+        nmask_array = []
+        for c in range(4):
+            dec = bit_netmask & 255
+            bit_netmask = bit_netmask >> 8
+            nmask_array.insert(0, str(dec))
+        return ".".join(nmask_array)
+
+

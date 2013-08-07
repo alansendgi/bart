@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block contents %}
+
+{% if device_list %}
+    <ul>
+    {% for device in device_list %}
+        <li><a href="/networkdevice/{{ device.id }}/">{{ device.address }}</a>
+            {{ device.community }} {{ device.fqdn }} {{ device.model }}
+            (<a href="{% url 'networkdevice-delete' %}">delete</a> |
+            <a href="{% url 'networkdevice-modify' %}">modify</a>) 
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    No devices configured
+{% endif %}
+
+{% endblock %}

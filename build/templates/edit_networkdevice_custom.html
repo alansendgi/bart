@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if networkdevice.id %}
+<h1>Edit Network Device</h1>
+{% else %}
+<h1>Add Network Device</h1>
+{% endif %}
+
+<form action="{{ action }}" method="POST">
+  {% csrf_token %}
+
+  {% for field in form %}
+  <div id="{{ field.auto_id }}_container">
+    {{ field.help_text }}
+    <div>
+      {{ field.label_tag }} {{ field }}
+    </div>
+    <div id="{{ field.auto_id }}_errors">
+      {{ field.errors }}
+    </div>
+  </div>
+  {% endfor %}
+
+  <input id="save_networkdevice" type="submit" value="Save" />
+</form>
+
+{% if networkdevice.id %}
+<a href="{% url "networkdevices-edit-addresses" pk=networkdevice.id %}">
+  Edit Addresses
+</a>
+<a href="{% url "networkdevices-delete" pk=networkdevice.id %}">Delete</a>
+{% endif %}
+
+<a href="{% url "networkdevices-list" %}">back to list</a>
+
+{% endblock %}

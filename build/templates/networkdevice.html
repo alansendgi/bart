@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>{{ networkdevice }}</h2>
+
+<ul>
+{% for address in networkdevice.address_set.all %}
+   <li>{{ address.address }}
+   </li>
+{% endfor %}
+</ul>
+
+{% endblock %}

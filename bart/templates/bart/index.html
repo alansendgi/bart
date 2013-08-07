@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block contents %}
+  <h2>The Build-Audit-Report-Test tool</h2>
+  <p>
+    Welcome to BART, the Build Audit Report and Test tool.
+    Here are some quick links to the different tools:
+  </p>
+  <ul>
+    <li><a href="/admin/">Log in to the admin interface</a></li>
+    <li><a href="{% url 'network-build' %}">The network build interface</a></li>
+    <li><a href="/ip_addresses/networkaddress/">The IP Address Management tool</a></li>
+    <li><a href="{% url 'networkaddress-displaytop' %}">Network address management</a></li>
+  </ul>
+{% endblock %}

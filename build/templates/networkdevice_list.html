@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Network Devices</h2>
+
+<ul>
+  {% for networkdevice in object_list %}
+    <li class="contact">
+      <a href="{{ networkdevice.get_absolute_url }}">{{ networkdevice }}</a>
+      (<a href="{% url "networkdevices-edit" pk=networkdevice.id %}">edit</a>)
+    </li>
+  {% endfor %}
+</ul>
+
+<a href="{% url "networkdevices-new" %}">add networkdevice</a>
+{% endblock %}

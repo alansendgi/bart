@@ -6,8 +6,7 @@ import build.views
 
 urlpatterns = patterns('',
     url(r'^$', build.views.ListNetworkDeviceView.as_view(),
-        name='network-build',),
-    # changed networkdevices-list to network-build for testing
+        name='networkdevices-list',),
     url(r'^(?P<pk>\d+)/$', build.views.NetworkDeviceView.as_view(),
         name='networkdevices-view',),
     url(r'^new$', build.views.CreateNetworkDeviceView.as_view(),
