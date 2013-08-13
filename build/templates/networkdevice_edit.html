@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if contact.id %}
+<h3>Edit Network Device</h3>
+<p>Editing the network device for {{ networkaddress }}</p>
+{% else %}
+<h3>Add Network Device</h3>
+{% endif %}
+
+<form action="{% url "networkdevice-edit" pk=networkaddress.id %}" method="POST">
+  {% csrf_token %}
+  {{ form.management_form }}
+  {% for networkdevice_form in form %}
+  
+    <ul>
+      {{ networkdevice_form.as_ul }}
+    </ul>
+  
+  {% endfor %}
+  
+  <input type="submit" value="Save" />
+</form>
+
+<a href="{% url "networkaddress-list" %}">back to list</a>
+{% endblock %}

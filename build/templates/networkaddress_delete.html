@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h3>Delete Network Address</h3>
+
+<p>Are you sure you want to delete the network address {{ networkaddress }}?</p>
+
+<form action="{% url "networkaddress-delete" pk=networkaddress.id %}" method="POST">
+  {% csrf_token %}
+ 
+  <input type="submit" value="Yes, delete." />
+  <a href="{% url "networkaddress-list" %}">No, cancel.</a>
+</form>
+
+{% endblock %}

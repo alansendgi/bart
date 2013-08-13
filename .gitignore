@@ -2,6 +2,8 @@
 
 # jEdit backups
 *~
+*ORIG*
+*BKUP*
 
 # Installer logs
 pip-log.txt

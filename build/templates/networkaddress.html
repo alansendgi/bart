@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h3>{{ networkaddress }}</h3>
+
+<ul>
+  {% for networkdevice in networkaddress.networkdevice_set.all %}
+    <li>{{ networkdevice.networkdevice }}<br/>
+        {{ networkdevice.device_type }}
+    </li>
+  {% endfor %}
+</ul>
+
+<a href="{% url "networkaddress-list" %}">back to list</a>
+{% endblock %}

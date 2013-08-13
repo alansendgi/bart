@@ -1,60 +1,33 @@
+from django.core.urlresolvers import reverse
 from django.db import models
-from django.forms import ModelForm
-import socket
-
-
-class NetworkDevice(models.Model):
-    
-    address = models.IPAddressField()
-    community = models.CharField(max_length=255, null=True)
-    username = models.CharField(max_length=255, null=True, blank=True)
-    password = models.CharField(max_length=255, null=True, blank=True)
-    fqdn = models.CharField(max_length=255, null=True, blank=True)
-    manufacturer = models.CharField(max_length=50, null=True, blank=True)
-    model = models.CharField(max_length=50, null=True, blank=True)
-    ios = models.CharField(max_length=50, null=True, blank=True)
-    description = models.CharField(max_length=400, null=True, blank=True)
-
-    def __unicode__(self):
-        return "%s %s %s %s" % (self.address, self.fqdn, self.community, self.model)
-
-    def get_absolute_url(self):
-        return reverse('networkdevices-list', kwargs={'pk': self.id})
 
 
 class NetworkAddress(models.Model):
     
-    address = models.ForeignKey(NetworkDevice)
-    network_size = models.PositiveIntegerField()
-    description = models.CharField(max_length=400)
-    parent = models.ForeignKey('self', null=True, blank=True)
+    ip_address = models.CharField(
+        max_length=25, unique=True,
+    )
+    subnet_mask = models.CharField(
+        max_length=25,
+    )
+    
+    def __str__(self):
 
-    def __unicode__(self):
-        return "%s/%d" % (self.address, self.network_size)
-
-    @models.permalink
+        return ' '.join([
+            self.ip_address,
+            self.subnet_mask,
+        ])
+    
     def get_absolute_url(self):
-        return ('networkaddress-display', (), {'address': '%s/%s' % (self.address, self.network_size)})
-
-    def get_hostname(self):
-        try:
-            fqdn = socket.gethostbyaddr(str(self.address))[0]
-        except:
-            fqdn = ''
-        return fqdn
-
-    def get_formated_address(self):
-        return str(self.address).replace('.', '_')
-
-    def get_netmask(self):
-        bit_netmask = 0;
-        bit_netmask = pow(2, self.network_size) - 1
-        bit_netmask = bit_netmask << (32 - self.network_size)
-        nmask_array = []
-        for c in range(4):
-            dec = bit_netmask & 255
-            bit_netmask = bit_netmask >> 8
-            nmask_array.insert(0, str(dec))
-        return ".".join(nmask_array)
+        
+        return reverse('networkaddress-view', kwargs={'pk': self.id})
 
 
+class NetworkDevice(models.Model):
+    
+    networkaddress = models.ForeignKey(NetworkAddress)
+    device_type = models.CharField(max_length=255,)
+    
+    class Meta:
+        unique_together = ('networkaddress', 'device_type',)
+        

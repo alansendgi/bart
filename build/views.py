@@ -1,79 +1,79 @@
+from django.http import HttpResponse
 from django.core.urlresolvers import reverse
-from django.views.generic import (
-    CreateView,
-    DeleteView,
-    DetailView,
-    ListView,
-    UpdateView,
-)
+from django.views.generic import CreateView
+from django.views.generic import ListView
+from django.views.generic import UpdateView
+from django.views.generic import DeleteView
+from django.views.generic import DetailView
 
-from build.models import NetworkDevice
+from build.models import NetworkAddress
 import forms
 
 
-class ListNetworkDeviceView(ListView):
-    
-    model = NetworkDevice
-    template_name = 'networkdevice_list.html'
-    
-    
-class NetworkDeviceView(DetailView):
-    
-    model = NetworkDevice
-    template_name = 'networkdevice.html'
+class ListNetworkAddressView(ListView):
+
+    model = NetworkAddress
+    template_name = 'networkaddress_list.html'
     
     
-class CreateNetworkDeviceView(CreateView):
-    
-    model = NetworkDevice
-    template_name = 'edit_networkdevice_custom.html'
-    form_class = forms.NetworkDeviceForm
-    
+class CreateNetworkAddressView(CreateView):
+
+    model = NetworkAddress
+    template_name = 'networkaddress_edit.html'
+
     def get_success_url(self):
-        return reverse('networkdevices-list')
+        return reverse('networkaddress-list')
     
     def get_context_data(self, **kwargs):
-
-        context = super(CreateNetworkDeviceView, self).get_context_data(**kwargs)
-        context['action'] = reverse('networkdevices-new')
-
+        
+        context = super(CreateNetworkAddressView, self).get_context_data(**kwargs)
+        context['action'] = reverse('networkaddress-new')
+        
         return context
+        
+    
+class UpdateNetworkAddressView(UpdateView):
 
-
-class UpdateNetworkDeviceView(UpdateView):
-
-    model = NetworkDevice
-    template_name = 'edit_networkdevice.html'
-    form_class = forms.NetworkDeviceForm
+    model = NetworkAddress
+    template_name = 'networkaddress_edit.html'
 
     def get_success_url(self):
-        return reverse('networkdevices-list')
-
+        return reverse('networkaddress-list')
+    
     def get_context_data(self, **kwargs):
-
-        context = super(UpdateNetworkDeviceView, self).get_context_data(**kwargs)
-        context['action'] = reverse('networkdevices-edit',
+        
+        context = super(UpdateNetworkAddressView, self).get_context_data(**kwargs)
+        context['action'] = reverse('networkaddress-edit',
                                     kwargs={'pk': self.get_object().id})
-
+        
         return context
-
-
-class DeleteNetworkDeviceView(DeleteView):
-
-    model = NetworkDevice
-    template_name = 'delete_contact.html'
-
-    def get_success_url(self):
-        return reverse('networkdevices-list')
-
-
-class EditNetworkDeviceAddressView(UpdateView):
-
-    model = NetworkDevice
-    template_name = 'edit_addresses.html'
-    form_class = forms.NetworkDeviceAddressFormSet
+    
+    
+class DeleteNetworkAddressView(DeleteView):
+    
+    model = NetworkAddress
+    template_name = 'networkaddress_delete.html'
 
     def get_success_url(self):
+        return reverse('networkaddress-list')
+        
 
-        # redirect to the NetworkDevice view.
+class NetworkAddressView(DetailView):
+
+    model = NetworkAddress
+    template_name = 'networkaddress.html'
+
+    def get_success_url(self):
+        return reverse('networkaddress-list')
+    
+
+class EditNetworkDeviceView(UpdateView):
+    
+    model = NetworkAddress
+    template_name = 'networkdevice_edit.html'
+    form_class = forms.NetworkDeviceFormSet
+    
+    def get_success_url(self):
+        
+        # redirect to the NetworkAddress view.
         return self.get_object().get_absolute_url()
