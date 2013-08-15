@@ -26,8 +26,12 @@ class NetworkAddress(models.Model):
 class NetworkDevice(models.Model):
     
     networkaddress = models.ForeignKey(NetworkAddress)
-    device_type = models.CharField(max_length=255,)
+    device_type = models.CharField(max_length=20,)
+    fqdn = models.CharField(max_length=255,)
+    community = models.CharField(max_length=255,)
+    ro_passwd = models.CharField(max_length=255,)
+    manufacturer = models.CharField(max_length=255,)
+    model_no = models.CharField(max_length=255,)
     
     class Meta:
         unique_together = ('networkaddress', 'device_type',)
-        

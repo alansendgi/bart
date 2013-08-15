@@ -2,24 +2,24 @@
 
 {% block content %}
 
-{% if networkaddress.id %}
-<h3>Edit Network Address</h3>
-{% else %}
-<h3>Add Network Address</h3>
-{% endif %}
-
-<form action="{{ action }}" method="POST">
-  {% csrf_token %}
-  
-    {{ form.as_p }}
-  
-  <input id="save_networkaddress" type="submit" value="Save" />
-</form>
-
-{% if networkaddress.id %}
-<a href="{% url "networkdevice-edit" pk=networkaddress.id%}">Edit Device</a>
-<a href="{% url "networkaddress-delete" pk=networkaddress.id%}">Delete</a>
-{% endif %}
-
-<a href="{% url "networkaddress-list" %}">back to list</a>
+      {% if networkaddress.id %}
+      <h3>Edit Network Address</h3>
+      {% else %}
+      <h3>Add Network Address</h3>
+      {% endif %}
+      
+      <form action="{{ action }}" method="POST">
+        {% csrf_token %}
+        
+          {{ form.as_p }}
+        
+        <input id="save_networkaddress" type="submit" value="Save" />
+      </form>
+      
+      {% if networkaddress.id %}
+        <a href="{% url "networkdevice-edit" pk=networkaddress.id%}">Edit Device</a>
+        <a href="{% url "networkaddress-delete" pk=networkaddress.id%}">Delete</a>
+      {% endif %}
+      
+      <a href="{% url "networkaddress-list" %}">back to list</a>
 {% endblock %}

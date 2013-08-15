@@ -2,15 +2,19 @@
 
 {% block content %}
 
-<h3>{{ networkaddress }}</h3>
-
-<ul>
-  {% for networkdevice in networkaddress.networkdevice_set.all %}
-    <li>{{ networkdevice.networkdevice }}<br/>
-        {{ networkdevice.device_type }}
-    </li>
-  {% endfor %}
-</ul>
+      <h3>{{ networkaddress }}</h3>
+      
+      <ul>
+      {% for item in networkaddress.networkdevice_set.all %}
+        <li>{{ item.device_type }}<br/>
+            {{ item.fqdn }}<br/>
+            {{ item.community }}<br/>
+            {{ item.ro_passwd }}<br/>
+            {{ item.manufacturer }}<br/>
+            {{ item.model_no }}<br/>
+        </li>
+      {% endfor %}
+      </ul>
 
 <a href="{% url "networkaddress-list" %}">back to list</a>
 {% endblock %}

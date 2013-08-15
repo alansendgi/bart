@@ -2,16 +2,16 @@
 
 {% block content %}
 
-<h3>Network Address Listing</h3>
-
-<ul>
-  {% for networkaddress in object_list %}
-    <li class="contact">
-      <a href="{{ networkaddress.get_absolute_url }}">{{ networkaddress }}</a>
-      (<a href="{% url "networkaddress-edit" pk=networkaddress.id %}">edit</a>)
-    </li>
-  {% endfor %}
-</ul>
-
-<a href="{% url "networkaddress-new" %}">add network address</a>
+      <h3>Network Address Listing</h3>
+      
+      <ul>
+        {% for networkaddress in object_list %}
+          <li class="contact">
+            <a href="{{ networkaddress.get_absolute_url }}">{{ networkaddress }}</a>
+            (<a href="{% url "networkaddress-edit" pk=networkaddress.id %}">edit</a>)
+          </li>
+        {% endfor %}
+      </ul>
+      
+      <a href="{% url "networkaddress-new" %}">add network address</a>
 {% endblock %}

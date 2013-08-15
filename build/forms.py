@@ -12,4 +12,5 @@ from build.models import (
 NetworkDeviceFormSet = inlineformset_factory(
     NetworkAddress,
     NetworkDevice,
+    extra=1
 )
