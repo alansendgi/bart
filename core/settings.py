@@ -128,11 +128,11 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #'django.contrib.admin',
+    'django.contrib.admin',
     # 
     #'csvimport',
     # 
-    'bart',
+    'generic',
     'build',
     #'ip_addresses',
 )

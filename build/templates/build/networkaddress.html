@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+      <h3>Network Device Details</h3>
+        <div class="row">
+          <div class="span3">
+            <ul>
+              Network Address:<br/>
+              Device Type:<br/>
+              FQDN:<br/>
+              Community:<br/>
+              Username:<br/>
+              Password:<br/>
+              Manufacturer:<br/>
+              Model Number:<br/>
+            </ul>
+          </div>
+          
+          <div class="span9">
+            <ul>
+              {{ networkaddress }}<br/>
+              {% for item in networkaddress.networkdevice_set.all %}
+              {{ item.device_type }}<br/>
+              {{ item.fqdn }}<br/>
+              {{ item.community }}<br/>
+              {{ item.username }}<br/>
+              {{ item.password }}<br/>
+              {{ item.manufacturer }}<br/>
+              {{ item.model_no }}<br/>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+
+<a href="{% url "networkaddress-list" %}">back to list</a>
+{% endblock %}

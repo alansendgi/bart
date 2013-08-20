@@ -1,10 +1,9 @@
+# -*- coding: utf-8 -*-
 from django import forms
 from django.forms.models import inlineformset_factory
 
-from build.models import (
-    NetworkAddress,
-    NetworkDevice,
-)
+from build.models import NetworkAddress
+from build.models import NetworkDevice
 
 
 # inlineformset_factory creates a Class from a parent model (NetworkAddress)
@@ -12,5 +11,7 @@ from build.models import (
 NetworkDeviceFormSet = inlineformset_factory(
     NetworkAddress,
     NetworkDevice,
-    extra=1
+    can_delete=False,
+    extra=1,
+    max_num=1
 )

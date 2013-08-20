@@ -7,6 +7,7 @@
       <p>Editing the network device for {{ networkaddress }}</p>
       {% else %}
       <h3>Add Network Device</h3>
+      <p>Adding the network device for {{ networkaddress }}</p>
       {% endif %}
       
       <form action="{% url "networkdevice-edit" pk=networkaddress.id %}" method="POST">
@@ -14,9 +15,9 @@
         {{ form.management_form }}
         {% for networkdevice_form in form %}
         
-          <ul>
-            {{ networkdevice_form.as_ul }}
-          </ul>
+          <table>
+            {{ networkdevice_form.as_table }}
+          </table>
         
         {% endfor %}
         
