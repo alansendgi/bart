@@ -11,6 +11,10 @@
     <meta name="author" content="">
     
     <!-- Le styles -->
+    <!-- see django-base-template on Github for example of how to get Google CDN's jQuery, 
+    with a protocol relative URL; fall back to local if offline -->
+    <script src="{% static "js/jquery-1.10.2.min.js" %}"></script>
+    <script src="{% static "js/bootstrap.js" %}"></script>
     <link rel="stylesheet" type="text/css" href="{% static "css/bootstrap.css" %}" />
     <link rel="stylesheet" type="text/css" href="{% static "css/bootstrap-responsive.css" %}" />
     <link rel="stylesheet" type="text/css" href="{% static "css/custom.css" %}" />
@@ -20,6 +24,27 @@
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
     
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $(".address").each(function () {
+                var curId = $(this).attr('id');
+                updateStatus(curId);
+            });
+        });
+    
+        function updateStatus(attrId) {
+            address = attrId.replace('ip_', '');
+            address = address.replace(/_/g, '.');
+            $.ajax({
+                url: '{% url 'networkaddress-ping-url' %}' + address + '/ping/',
+                success: function(response) {
+                    $('#' + attrId).html(response);
+                }
+            });
+        }
+    
+    </script>
+  
     {% block extra_head %}{% endblock %}
     
   </head>
@@ -39,8 +64,8 @@
           <a class="brand" href="/">BART</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <li class="active"><a href="/home/">Home</a></li>
-              <li><a href="/build/">Build</a></li>
+              <li class="active"><a href="/">Home</a></li>
+              <li><a href="/build/networkaddress/">Build</a></li>
               <li><a href="/about/">About</a></li>
               <li><a href="/contact/">Contact</a></li>
             </ul>
@@ -54,13 +79,6 @@
       {% block content %}{% endblock %}
       
     </div><!--/ container -->
-    
-    <!-- JavaScript at the bottom for fast page loading -->
-    
-    <!-- see django-base-temple on Github for example of how to get Google CDN's jQuery, 
-    with a protocol relative URL; fall back to local if offline -->
-    <script src="{% static "js/jquery-1.10.2.min.js" %}"></script>
-    <script src="{% static "js/bootstrap.js" %}"></script>
     
   </body>
 </html>

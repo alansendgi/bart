@@ -1,36 +1,61 @@
 # -*- coding: utf-8 -*-
-# Import the basic Django ORM models library
 from django.db import models
-
-# Import the reverse lookup function
-from django.core.urlresolvers import reverse
+from django.forms import ModelForm
+import socket
 
 
 class NetworkAddress(models.Model):
-    
-    ip_address = models.IPAddressField()
-    subnet_mask = models.IPAddressField()
-    description = models.CharField(max_length=255)
-    
+    address = models.IPAddressField()
+    network_size = models.PositiveIntegerField()
+    description = models.CharField(max_length=400)
+    parent = models.ForeignKey('self', null=True, blank=True)
+
     def __unicode__(self):
+        return "%s/%d" % (self.address, self.network_size)
 
-        return ' '.join([self.ip_address, self.subnet_mask])
-    
+    @models.permalink
     def get_absolute_url(self):
-        
-        return reverse('networkaddress-view', kwargs={'pk': self.id})
+        return ('networkaddress-display', (), {'address': '%s/%s' % (self.address, self.network_size)})
+
+    def get_hostname(self):
+        try:
+            fqdn = socket.gethostbyaddr(str(self.address))[0]
+        except:
+            fqdn = ''
+        return fqdn
+
+    def get_formated_address(self):
+        return str(self.address).replace('.', '_')
+
+    def get_netmask(self):
+        bit_netmask = 0;
+        bit_netmask = pow(2, self.network_size) - 1
+        bit_netmask = bit_netmask << (32 - self.network_size)
+        nmask_array = []
+        for c in range(4):
+            dec = bit_netmask & 255
+            bit_netmask = bit_netmask >> 8
+            nmask_array.insert(0, str(dec))
+        return ".".join(nmask_array)
 
 
-class NetworkDevice(models.Model):
-    
-    networkaddress = models.ForeignKey(NetworkAddress)
-    device_type = models.CharField(max_length=20,)
-    fqdn = models.CharField(max_length=255,)
-    community = models.CharField(max_length=255,)
-    username = models.CharField(max_length=255,)
-    password = models.CharField(max_length=255,)
-    manufacturer = models.CharField(max_length=255,)
-    model_no = models.CharField(max_length=255,)
-    
+class NetworkAddressAddForm(ModelForm):
     class Meta:
-        unique_together = ('networkaddress', 'device_type',)
+        model = NetworkAddress
+        exclude = ('parent', )
+
+
+class NetworkAddressModifyForm(ModelForm):
+    class Meta:
+        model = NetworkAddress
+        fields = ('description',)
+
+
+class DomainName(models.Model):
+    name = models.CharField(max_length=100)
+    comment = models.CharField(max_length=400)
+
+    def __unicode__(self):
+        return "%s (%s)" % (self.name, self.comment[:20])
+
+

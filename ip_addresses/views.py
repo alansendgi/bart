@@ -59,87 +59,6 @@ def networkaddress_modify(request, address=None):
         form = NetworkAddressModifyForm(initial={ 'description': address_obj.description, })
     return render_to_response('ip_addresses/add.html', {'form': form,}, context_instance=RequestContext(request))
 
-# DHCPNETWORK view functions
-
-def dhcpnetwork_add(request, address=None):
-    if request.method == 'POST':
-        network_addr = get_network_object_from_address(address)
-        dhcp_net = DHCPNetwork(physical_net=network_addr)
-        form = DHCPNetworkAddForm(request.POST, instance=dhcp_net)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(network_addr.get_absolute_url())
-    else:
-        form = DHCPNetworkAddForm()
-    return render_to_response('ip_addresses/add.html', {'form': form,}, context_instance=RequestContext(request))
-
-def dhcpnetwork_delete(request, address=None):
-    network_addr = get_network_object_from_address(address)
-    get_dhcp_object_from_address(address).delete()
-    return HttpResponseRedirect(network_addr.get_absolute_url())
-
-def dhcpnetwork_modify(request, address=None):
-    ip, net_size = address.split('/')
-    network_addr = NetworkAddress.objects.get(address=ip, network_size=int(net_size))
-    dhcp_net = DHCPNetwork.objects.get(physical_net=network_addr)
-    if request.method == 'POST':
-        # submiting changes
-        form = DHCPNetworkAddForm(request.POST, instance=dhcp_net)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(dhcp_net.get_absolute_url())
-    else:
-        # first time display
-        form = DHCPNetworkAddForm(instance=dhcp_net)
-    return render_to_response('ip_addresses/add.html', {'form': form,}, context_instance=RequestContext(request))
-
-def dhcpnetwork_display(request, address=None):
-    dhcp_net = get_dhcp_object_from_address(address)
-    dhcp_pools = DHCPAddressPool.objects.filter(dhcp_network=dhcp_net)
-    class_rules = ClassRule.objects.all()
-    return render_to_response('ip_addresses/display_dhcp.html', {'dhcp_net': dhcp_net,
-                                                    'dhcp_pools': dhcp_pools,
-                                                    'class_rules': class_rules,})
-
-# DHCPADDRESSPOOL views
-
-def dhcpaddresspool_display(request, range_start=None, range_finish=None):
-    return HttpResponse('not implemented')
-
-def dhcpaddresspool_add(request, address=None):
-    if request.method == 'POST':
-        dhcp_net = get_dhcp_object_from_address(address)
-        pool = DHCPAddressPool(dhcp_network=dhcp_net)
-        form = DHCPAddressPoolForm(request.POST, instance=pool)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(dhcp_net.get_absolute_url())
-    else:
-        form = DHCPAddressPoolForm()
-    return render_to_response('ip_addresses/add.html', {'form': form,}, context_instance=RequestContext(request))
-
-def dhcpaddresspool_delete(request, range=None):
-    range_start, range_finish = range.split('/')
-    pool_obj = DHCPAddressPool.objects.get(range_start=range_start, range_finish=range_finish)
-    dhcp_net = pool_obj.dhcp_network
-    pool_obj.delete()
-    return HttpResponseRedirect(dhcp_net.get_absolute_url())
-
-# CLASSRULE views
-
-def classrule_display(request, rule_id=None):
-    class_rules = ClassRule.objects.all()
-    return render_to_response('ip_addresses/display_classrules.html')
-
-def classrule_add(request):
-    if request.method == 'POST':
-        form = ClassRuleForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(request.META['HTTP_REFERER'])
-    else:
-        form = ClassRuleForm()
-    return render_to_response('ip_addresses/add.html', {'form': form,}, context_instance=RequestContext(request))
 
 
 def networkaddress_ping(request, address=None):
@@ -149,23 +68,8 @@ def networkaddress_ping(request, address=None):
         msg = "No response"
     return HttpResponse(msg)
 
-def dhcpd_conf_generate(request):
-    class_rules = ClassRule.objects.all()
-    networks = []
-    for net in DHCPNetwork.objects.all():
-        networks.append( { 'dhcp_net': net,
-                           'pools': DHCPAddressPool.objects.filter(dhcp_network=net),
-                         } )
-
-    return render_to_response('dhcpd.conf.txt', 
-                              {'class_rules': class_rules,
-                               'networks': networks,
-                              }, 
-                              mimetype='text/plain')
 
 
-
-### add these to apps/ip_addresses/views.py
 # NETWORKDEVICE view functions
 
 def networkdevice_display(request, device=None):
@@ -216,13 +120,6 @@ def get_network_object_from_address(address):
     if address:
         ip, net_size = address.split('/')
         object = NetworkAddress.objects.get(address=ip, network_size=int(net_size))
-    else:
-        object = None
-    return object
-
-def get_dhcp_object_from_address(address):
-    if address:
-        object = DHCPNetwork.objects.get(physical_net=get_network_object_from_address(address))
     else:
         object = None
     return object

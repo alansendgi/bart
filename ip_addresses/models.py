@@ -50,80 +50,12 @@ class NetworkAddressModifyForm(ModelForm):
         fields = ('description',)
 
 
-class DNSServer(models.Model):
-    address = models.IPAddressField()
-    comment = models.CharField(max_length=400)
-
-    def __unicode__(self):
-        return "%s (%s)" % (self.address, self.comment[:20])
-
-
 class DomainName(models.Model):
     name = models.CharField(max_length=100)
     comment = models.CharField(max_length=400)
 
     def __unicode__(self):
         return "%s (%s)" % (self.name, self.comment[:20])
-
-
-class DHCPNetwork(models.Model):
-    physical_net = models.OneToOneField(NetworkAddress)
-    router = models.IPAddressField()
-    dns_server = models.ForeignKey(DNSServer)
-    domain_name = models.ForeignKey(DomainName)
-
-    def __unicode__(self):
-        return "%s/%s" % (self.physical_net.address, self.physical_net.network_size)
-
-    @models.permalink
-    def get_absolute_url(self):
-        return ('dhcpnetwork-display', (), {'address': '%s/%s' % (self.physical_net.address, self.physical_net.network_size)})
-
-
-class DHCPNetworkAddForm(ModelForm):
-    class Meta:
-        model = DHCPNetwork
-        exclude = ('physical_net',)
-
-
-class ClassRule(models.Model):
-    rule = models.TextField()
-    description = models.CharField(max_length=400)
-
-    def __unicode__(self):
-        return self.description[:20]
-
-    @models.permalink
-    def get_absolute_url(self):
-        return ('classrule-display', (), {'object_id': self.id})
-
-
-class ClassRuleForm(ModelForm):
-    class Meta:
-        model = ClassRule
-
-
-class DHCPAddressPool(models.Model):
-    dhcp_network = models.ForeignKey(DHCPNetwork)
-    class_rule = models.ForeignKey(ClassRule, null=True, blank=True)
-    range_start  = models.IPAddressField()
-    range_finish = models.IPAddressField()
-
-    def __unicode__(self):
-        return "%s/%s" % (self.range_start, self.range_finish)
-
-    def __str__(self):
-        return "%s/%s" % (self.range_start, self.range_finish)
-
-    @models.permalink
-    def get_absolute_url(self):
-        return ('dhcpaddresspool-display', (), {'range_start': self.range_start, 'range_finish': self.range_finish})
-
-
-class DHCPAddressPoolForm(ModelForm):
-    class Meta:
-        model = DHCPAddressPool
-        exclude = ('dhcp_network',)
 
 
 # NETWORKDEVICE model classes
@@ -142,14 +74,3 @@ class NetworkDevice(models.Model):
     def __unicode__(self):
         return "%s %s %s %s" % (self.address, self.fqdn, self.community, self.model)
 
-
-class NetworkDeviceAddForm(ModelForm):
-    class Meta:
-        model = NetworkDevice
-        #exclude = ('parent', )
-
-
-class NetworkDeviceModifyForm(ModelForm):
-    class Meta:
-        model = NetworkDevice
-        #fields = ('description',)

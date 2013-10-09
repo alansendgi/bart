@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block contents %}
+{% block content %}
 <h1>DHCP details for {{ dhcp_net.physical_net.address }}/{{ dhcp_net.physical_net.network_size }} network</h1>
 <h2><a href="{% url 'networkaddress-display' dhcp_net %}">Go back to network details</a></h2>
 <ul>
