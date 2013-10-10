@@ -1,4 +1,5 @@
 *.py[cod]
+*.db
 
 # jEdit backups
 *~
@@ -14,5 +15,6 @@ pip-log.txt
 .tox
 nosetests.xml
 
+.idea
 .project
 .pydevproject
