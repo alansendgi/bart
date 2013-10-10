@@ -8,7 +8,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    ('Alan Sendgikoski', 'asendgi@gmail.com'),
+    ('your name', 'email@example.com'),
 )
 
 MANAGERS = ADMINS
@@ -87,7 +87,7 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
 
-SECRET_KEY = '0(m8dh(#0ra0p8_c+oz%#8n@73_w$q^r_9s7m6#&jkwz_th6^g'
+SECRET_KEY = 'use-your-secret-key'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
