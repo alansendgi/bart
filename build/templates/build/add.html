@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+  {% block content %}
+    <form action="." method="POST">
+  {% csrf_token %}
+  {{ form.as_p }}
+      <input class="btn" type="submit" value="Add" />
+      <a class="btn btn-small" href="{% url "networkaddress-displaytop" %}">Cancel</a>
+    </form>
+  
+{% endblock %}

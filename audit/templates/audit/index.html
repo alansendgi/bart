@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block contents %}
+<h2>Device Audit</h2>
+<p>
+    This page provides access to the network devices available for auditing.
+    Select the device(s) to be audited by IP Address or TBD.
+</p>
+
+{% if ip_address_list %}
+    <ul>
+    {% for ipaddr in ip_address_list %}
+        <li><a href="/audit/{{ ipaddr.id }}/">{{ ipaddr.ipaddress }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No entries are available.</p>
+{% endif %}
+
+{% endblock %}

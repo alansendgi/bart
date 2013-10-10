@@ -15,6 +15,6 @@ pip-log.txt
 .tox
 nosetests.xml
 
-.idea
+.idea/
 .project
 .pydevproject
